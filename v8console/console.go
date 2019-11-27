@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/usenkanov/v8"
+	"github.com/asido/v8"
 )
 
 const (

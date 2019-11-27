@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/usenkanov/v8"
-	"github.com/usenkanov/v8/v8console"
+	"github.com/asido/v8"
+	"github.com/asido/v8/v8console"
 )
 
 func ExampleFlushSnapshotAndInject() {
