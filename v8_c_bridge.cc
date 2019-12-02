@@ -9,10 +9,6 @@
 #include <sstream>
 #include <stdio.h>
 
-#if __cplusplus < 201103L
-  #error "The compiler is old :( " __cplusplus
-#endif
-
 #define ISOLATE_SCOPE(iso) \
   v8::Isolate* isolate = (iso);                                                               \
   v8::Locker locker(isolate);                            /* Lock to current thread.        */ \
