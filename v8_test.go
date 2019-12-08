@@ -64,14 +64,16 @@ func TestBoolConversion(t *testing.T) {
 	}
 
 	for i, test := range testcases {
-		res, err := ctx.Eval(test.js, "test.js")
-		if err != nil {
-			t.Errorf("%d %#q: Failed to run js: %v", i, test.js, err)
-		} else if b := res.Bool(); b != test.expected {
-			t.Errorf("%d %#q: Expected bool of %v, but got %v", i, test.js, test.expected, b)
-		} else if res.IsKind(KindBoolean) != test.isBool {
-			t.Errorf("%d %#q: Expected this to be a bool kind, but it's %v", i, test.js, res.kindMask)
-		}
+		t.Run(test.js, func(t *testing.T) {
+			res, err := ctx.Eval(test.js, "test.js")
+			if err != nil {
+				t.Errorf("%d %#q: Failed to run js: %v", i, test.js, err)
+			} else if b := res.Bool(); b != test.expected {
+				t.Errorf("%d %#q: Expected bool of %v, but got %v", i, test.js, test.expected, b)
+			} else if res.IsKind(KindBoolean) != test.isBool {
+				t.Errorf("%d %#q: Expected this to be a bool kind, but it's %v", i, test.js, res.kindMask)
+			}
+		})
 	}
 }
 
@@ -903,14 +905,16 @@ func TestCreateSimple(t *testing.T) {
 	}
 
 	for i, test := range testcases {
-		val, err := ctx.Create(test.val)
-		if err != nil {
-			t.Errorf("%d: Failed to create %#v: %v", i, test, err)
-			continue
-		}
-		if str := val.String(); str != test.str {
-			t.Errorf("Expected %q, got %q", test.str, str)
-		}
+		t.Run(test.str, func(t *testing.T) {
+			val, err := ctx.Create(test.val)
+			if err != nil {
+				t.Errorf("%d: Failed to create %#v: %v", i, test, err)
+				return
+			}
+			if str := val.String(); str != test.str {
+				t.Errorf("Expected %q, got %q", test.str, str)
+			}
+		})
 	}
 }
 

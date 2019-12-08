@@ -175,6 +175,11 @@ void v8_init() {
   v8::Platform *platform = platform_sp.release();
   v8::V8::InitializePlatform(platform);
   v8::V8::Initialize();
+
+  // Enable optional chaining: ?.
+  const char *kHarmonyFlag = "--harmony";
+  v8::V8::SetFlagsFromString(kHarmonyFlag, strlen(kHarmonyFlag));
+
   return;
 }
 
@@ -632,8 +637,7 @@ int64_t v8_Value_Int64(ContextPtr ctxptr, PersistentValuePtr valueptr) {
 int v8_Value_Bool(ContextPtr ctxptr, PersistentValuePtr valueptr) {
   VALUE_SCOPE(ctxptr);
   v8::Local<v8::Value> value = static_cast<Value*>(valueptr)->Get(isolate);
-  bool val = value->BooleanValue(isolate);
-  return val ? 1 : 0;
+  return value->BooleanValue(isolate) ? 1 : 0;
 }
 
 ByteArray v8_Value_Bytes(ContextPtr ctxptr, PersistentValuePtr valueptr) {
